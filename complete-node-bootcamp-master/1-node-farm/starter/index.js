@@ -2,6 +2,7 @@ const replaceTemplate = require("./module/replaceTemplate");
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
+const slugify = require("slugify");
 
 // Synchronous read/write (Blocking code)
 // const textIn = fs.readFileSync("./txt/input.txt", "utf-8");
@@ -52,7 +53,8 @@ const tempProduct = fs.readFileSync(
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
-// console.log(dataObj);
+const slug = dataObj.map((el) => slugify(el.productName, { lower: true }));
+console.log(slug);
 
 const server = http.createServer((req, res) => {
   // console.log(req);
