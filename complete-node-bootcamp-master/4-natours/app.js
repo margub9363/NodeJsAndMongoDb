@@ -4,6 +4,16 @@ const app = express();
 
 app.use(express.json()); //middleware
 
+app.use((req, res, next) => {
+  console.log("Hello from the middleware 😄");
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requsetTime = new Date().toISOString();
+  next();
+});
+
 const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}.....`);
@@ -26,9 +36,11 @@ const tours = JSON.parse(
 );
 
 app.get("/api/v1/tours", (req, res) => {
+  console.log(req.requsetTime);
   res.status(200).json({
     status: "success",
     results: tours.length,
+    requestedAt: req.requsetTime,
     data: { tours },
   });
 });
