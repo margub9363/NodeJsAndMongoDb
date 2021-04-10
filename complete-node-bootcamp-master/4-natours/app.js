@@ -37,14 +37,14 @@ app.get("/api/v1/tours/:id", (req, res) => {
   console.log(req.params);
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
-  console.log(tour);
+  // console.log(tour);
   if (tour) {
     res.status(200).json({
       status: "success",
       data: tour,
     });
   } else {
-    res.status(400).json({
+    res.status(404).json({
       status: "failed",
       message: "We could not find the tour with the given id",
     });
@@ -66,4 +66,13 @@ app.post("/api/v1/tours", (req, res) => {
       });
     }
   );
+});
+
+app.patch("/api/v1/tours/:id", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      tour: "<update tour here>",
+    },
+  });
 });
