@@ -76,3 +76,9 @@ app.patch("/api/v1/tours/:id", (req, res) => {
     },
   });
 });
+
+app.delete("/api/v1/tours/:id", (req, res) => {
+  res.status(200).json({
+    status: "success",
+  });
+});
