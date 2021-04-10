@@ -98,6 +98,9 @@ app.delete("/api/v1/tours/:id", (req, res) => {
   });
 });
 
+const userRouter = express.Router();
+app.use("/api/v1/users", userRouter);
+
 const getAllUsers = (req, res) => {
   res.status(500).json({
     status: "Error",
@@ -133,10 +136,6 @@ const deleteUser = (req, res) => {
   });
 };
 
-app.route("/api/v1/users").get(getAllUsers).post(createNewUser);
+userRouter.route("/").get(getAllUsers).post(createNewUser);
 
-app
-  .route("/api/v1/users/:id")
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+userRouter.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
