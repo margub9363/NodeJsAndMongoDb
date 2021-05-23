@@ -34,7 +34,22 @@ const tourSchema = new mongoose.Schema({
   },
 });
 
-const Tour = mongoose.model.('Tour', tourSchema)
+const Tour = mongoose.model('Tour', tourSchema);
+
+const testTour = new Tour({
+  name: 'ThePark Camper',
+  // rating: 4.7,
+  price: 997,
+});
+
+testTour
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  .catch((err) => {
+    console.log('Erro 😝 : ', err);
+  });
 
 console.log(process.env);
 
