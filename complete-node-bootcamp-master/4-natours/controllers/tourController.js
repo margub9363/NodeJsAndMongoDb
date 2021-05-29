@@ -1,9 +1,18 @@
 const Tour = require('./../models/tourModel');
 
-exports.deleteTour = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-  });
+exports.deleteTour = async (req, res) => {
+  try {
+    await Tour.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      status: 'success',
+      Message: 'Object with ID :' + req.params.id + ' is deleted',
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
 };
 
 exports.updateTour = async (req, res) => {
