@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const validator = require('validator'); //in lect  108 we used this , but i ma ignoring it for now
+
 const tourSchema = new mongoose.Schema(
   {
     name: {
@@ -41,7 +43,15 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'A Tour must have a price'],
     },
-    priceDiscout: Number,
+    priceDiscount: {
+      type: Number,
+      validate: {
+        validator: function (val) {
+          return val < this.price;
+        },
+        message: 'Discount Price should below the actual price',
+      },
+    },
     summary: {
       type: String,
       trim: true, //it will remove the multiple white spaces
