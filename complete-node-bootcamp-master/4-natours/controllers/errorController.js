@@ -11,6 +11,11 @@ const handleDuplicateFields = (err) => {
   return new AppError(message, 400);
 };
 
+const handleValidationErrorDB = (err) => {
+  const message = `Invalid input data.`;
+  return new AppError(message, 400);
+};
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -62,6 +67,7 @@ module.exports = (err, req, res, next) => {
     // ########
     if (err.name === 'CastError') error = handleCastErrorDB(error);
     if (err.code === 11000) error = handleDuplicateFields(error);
+    if (err.name === 'ValidationError') handleValidationErrorDB(error);
 
     sendErrorProd(error, res);
   }
