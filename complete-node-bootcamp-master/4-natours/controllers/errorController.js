@@ -32,10 +32,13 @@ module.exports = (err, req, res, next) => {
   //   console.log(err.stack);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
-
-  if (process.env === 'development') {
+  // ############
+  if (process.env.NODE_ENV === 'development') {
+    // it is observed we have to give  process.env.NODE_ENV
+    // ############
     sendErrorDev(err, res);
-  } else if (process.env === 'production') {
+  } else {
+    // We are assuming the environmne to be as -> production
     sendErrorProd(err, res);
   }
 };
