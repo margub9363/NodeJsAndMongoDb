@@ -4,6 +4,9 @@ const dontenv = require('dotenv');
 dontenv.config({ path: './config.env' });
 const app = require('./app');
 
+//  ##############  i am running my production environment manually
+// process.env.Node_Env = 'production';
+// ###############
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
