@@ -7,18 +7,19 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
-app.use(express.json()); //middleware
-// app.use(express.static(`${__dirname}/public`));
-app.use(express.static(`${__dirname}/starter/public`));
-
 // 1) Middleware
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+app.use(express.json()); //middleware
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/starter/public`));
+
 app.use((req, res, next) => {
   req.requsetTime = new Date().toISOString();
+  // console.log(req.headers);
   next();
 });
 
