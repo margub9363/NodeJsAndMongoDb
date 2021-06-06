@@ -17,6 +17,9 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    photo: req.body.photo,
+    passwordChangedAt: req.body.passwordChangedAt,
+    role: req.body.role,
   });
 
   const token = signToken(newUser._id);
@@ -86,3 +89,26 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = freshUser;
   next();
 });
+
+//    I am not gettting this concept , so moddified this code , and checked
+// exports.restrictTo = (...roles) => {
+//   return (req, res, next) => {
+//     // roles ['admin','lead-guide'].role = 'user'
+//     if (!roles.includes(req.user.role)) {
+//       return next(
+//         new AppError('You do not have permission to perform this action', 403)
+//       );
+//     }
+//     next();
+//   };
+// };
+exports.restrictTo = () => {
+  return (req, res, next) => {
+    if (req.user.role === 'user' || req.user.role === 'guide') {
+      return next(
+        new AppError('You do not have permission to perform this action', 403)
+      );
+    }
+    next();
+  };
+};
