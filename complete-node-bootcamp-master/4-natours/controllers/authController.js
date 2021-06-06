@@ -11,16 +11,16 @@ const signToken = (id) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  //   const newUser = await User.create(req.body);
-  const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-    photo: req.body.photo,
-    passwordChangedAt: req.body.passwordChangedAt,
-    role: req.body.role,
-  });
+  const newUser = await User.create(req.body);
+  // const newUser = await User.create({
+  //   name: req.body.name,
+  //   email: req.body.email,
+  //   password: req.body.password,
+  //   passwordConfirm: req.body.passwordConfirm,
+  //   photo: req.body.photo,
+  //   passwordChangedAt: req.body.passwordChangedAt,
+  //   role: req.body.role,
+  // });
 
   const token = signToken(newUser._id);
 
@@ -112,3 +112,23 @@ exports.restrictTo = () => {
     next();
   };
 };
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  // 1) Get User based on Posted email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError('There is no email with this email address', 404));
+  }
+  // 2) Generate the random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  // 3) Send it to the User's email
+
+  // Below three lines of codes is done by me , bcoz the response was stucking
+  res.status(200).json({
+    status: 'success',
+  });
+});
+
+// exports.forgotPassword = (req, res, next) => {};
