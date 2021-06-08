@@ -66,7 +66,9 @@ userSchema.methods.correctPassword = async function (
   candidatePAssword,
   userPassword
 ) {
-  return await bcrypt.compare(candidatePAssword, userPassword);
+  // return await bcrypt.compare(candidatePAssword, userPassword);
+  var flag = await bcrypt.compare(candidatePAssword, userPassword);
+  return flag;
 };
 
 userSchema.methods.changePasswordAfter = function (JWTTimestamp) {
