@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const { Console } = require('console');
 
 // name, email, photo, password, passwordConfirm
 
@@ -54,6 +55,13 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
 userSchema.methods.correctPassword = async function (
   candidatePAssword,
   userPassword
@@ -82,7 +90,6 @@ userSchema.methods.createPasswordResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  // console.log({ resetToken },{this.passowrdResetToken});
   console.log({ resetToken }, this.passowrdResetToken);
 
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
