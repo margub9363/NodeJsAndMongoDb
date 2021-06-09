@@ -10,6 +10,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 
 // 1)Global Middleware
 // console.log(process.env.NODE_ENV);
@@ -37,6 +38,19 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
 
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  })
+);
 // Sering Static files
 app.use(express.static(`${__dirname}/starter/public`));
 
