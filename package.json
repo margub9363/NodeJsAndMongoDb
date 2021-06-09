@@ -15,8 +15,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "express-mongo-sanitize": "^2.1.0",
     "express-rate-limit": "^5.2.6",
-    "morgan": "^1.9.1"
+    "helmet": "^4.6.0",
+    "morgan": "^1.9.1",
+    "xss-clean": "^0.1.1"
   },
   "bugs": {
     "url": "https://github.com/margub9363/NodeJsAndMongoDb/issues"
