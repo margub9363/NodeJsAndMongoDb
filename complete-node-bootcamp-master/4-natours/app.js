@@ -35,7 +35,7 @@ app.use(express.json({ limit: '10kb' })); //middleware
 app.use(mongoSanitize());
 
 // Data sanitization against XSS
-app.arguments(xss());
+app.use(xss());
 
 // Sering Static files
 app.use(express.static(`${__dirname}/starter/public`));
