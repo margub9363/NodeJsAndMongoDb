@@ -52,3 +52,7 @@ reviewSchema.pre(/^find/, function (next) {
 
 const Review = mongoose.model('Review', reviewSchema);
 module.exports = Review;
+
+// Post /tour/234dfssf/reviews
+// GET /tour/234dfssf/reviews
+// GET /tour/234dfssf/986sdj
