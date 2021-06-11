@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 
 const app = express();
@@ -13,8 +14,16 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const reviewRouter = require('./routes/reviewRoutes');
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // 1)Global Middleware
 // console.log(process.env.NODE_ENV);
+
+// Serving Static files
+// app.use(express.static(`${__dirname}/starter/public`));
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Set Security HTTP headers
 app.use(helmet());
 
@@ -52,8 +61,6 @@ app.use(
     ],
   })
 );
-// Sering Static files
-app.use(express.static(`${__dirname}/starter/public`));
 
 app.use((req, res, next) => {
   req.requsetTime = new Date().toISOString();
@@ -62,6 +69,9 @@ app.use((req, res, next) => {
 });
 
 // 3) Routes
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
@@ -69,7 +79,7 @@ app.use('/api/v1/reviews', reviewRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-  next(err);
+  // next(err);
 });
 
 app.use(globalErrorHandler);
