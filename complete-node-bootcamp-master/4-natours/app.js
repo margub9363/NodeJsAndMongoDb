@@ -14,6 +14,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const cookieParser = require('cookie-parser');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -42,6 +43,7 @@ app.use('/api', limiter);
 
 // Body parser , reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); //middleware
+app.use(cookieParser());
 
 // Data sanitization against no sql query injection
 app.use(mongoSanitize());
@@ -63,9 +65,10 @@ app.use(
   })
 );
 
+// Test Middleware
 app.use((req, res, next) => {
   req.requsetTime = new Date().toISOString();
-  // console.log(req.headers);
+  console.log(req.cookies);
   next();
 });
 
